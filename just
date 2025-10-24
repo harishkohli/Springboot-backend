@@ -95,3 +95,8 @@ def solve_n_queens(n):
 
         return false;
     }
+
+
+
+222
+
