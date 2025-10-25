@@ -143,3 +143,95 @@ class GfG{
         System.out.println(subarraySum(arr));
     }
 }
+
+----------------------------------------------------------
+
+import java.util.*;
+
+public class MinAbsDifference {
+
+    // Helper function to generate all possible sums of
+    // subsequences of a given array
+    public static void generateSums(List<Integer> nums,
+                                    int start, int end,
+                                    List<Integer> sums)
+    {
+        int n = end - start;
+        for (int i = 0; i < (1 << n); ++i) {
+            int sum = 0;
+            for (int j = 0; j < n; ++j) {
+                if ((i & (1 << j)) != 0) {
+                    sum += nums.get(start + j);
+                }
+            }
+            sums.add(sum);
+        }
+    }
+
+    public static int minAbsDifference(List<Integer> nums,
+                                       int goal)
+    {
+        int n = nums.size();
+        List<Integer> leftSums = new ArrayList<>();
+        List<Integer> rightSums = new ArrayList<>();
+
+        // Step 1: Split the array and generate all possible
+        // sums for each half
+        generateSums(nums, 0, n / 2, leftSums);
+        generateSums(nums, n / 2, n, rightSums);
+
+        // Step 2: Sort the sums of the second half
+        Collections.sort(rightSums);
+
+        int minDiff
+            = Math.abs(goal); // Initial difference assuming
+                              // no elements are chosen
+
+        // Step 3: For each sum in the first half, find the
+        // closest sum in the second half using binary
+        // search
+        for (int leftSum : leftSums) {
+            int remaining = goal - leftSum;
+            int pos = Collections.binarySearch(rightSums,
+                                               remaining);
+
+            if (pos >= 0) {
+                // Exact match found
+                return 0;
+            }
+            else {
+                pos = -pos - 1; // Binary search returned
+                                // insertion point
+            }
+
+            // Check the closest values found by binary
+            // search
+            if (pos < rightSums.size()) {
+                minDiff = Math.min(
+                    minDiff,
+                    Math.abs(remaining
+                             - rightSums.get(pos)));
+            }
+            if (pos > 0) {
+                minDiff = Math.min(
+                    minDiff,
+                    Math.abs(remaining
+                             - rightSums.get(pos - 1)));
+            }
+        }
+
+        return minDiff;
+    }
+
+    public static void main(String[] args)
+    {
+        List<Integer> arr = Arrays.asList(5, -7, 3, 5);
+        int target = 6;
+        System.out.println(minAbsDifference(arr, target));
+    }
+}
+
+// This code is contributed by Shivam Gupta
+
+
+------------------------------------------------------------
