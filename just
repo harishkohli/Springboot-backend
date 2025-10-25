@@ -77,26 +77,39 @@ def solve_n_queens(n):
 #     print("-" * 10)
 
 
-    public static boolean checkPowersOfThree(int n) {
-        int[] nums = {1, 3, 9, 27, 81, 243, 729, 2187, 6561, 19683, 59049, 177147, 531441, 1594323, 4782969};
-        int idx = nums.length - 1;
-        while (idx >= 0 && n > 0) {
-            while (idx >= 0 && nums[idx] > n) {
-                idx--;
-            }
+--------------------------------
 
-            if (nums[idx] == n) {
-                return true;
-            }
 
-            n -= nums[idx];
-            idx--;
+import java.util.HashSet;
+
+class GfG {
+
+    static int removeDuplicates(int[] arr) {
+        
+        // To track seen elements
+        HashSet<Integer> s = new HashSet<>();
+        
+        // To maintain the new size of the array
+        int idx = 0;  
+
+        for (int i = 0; i < arr.length; i++) {
+            if (!s.contains(arr[i])) { 
+                s.add(arr[i]);  
+                arr[idx++] = arr[i];  
+            }
         }
 
-        return false;
+        // Return the size of the array 
+        // with unique elements
+        return idx;
     }
 
+    public static void main(String[] args) {
+        int[] arr = {1, 2, 2, 3, 4, 4, 4, 5, 5};
+        int newSize = removeDuplicates(arr);
 
-
-222
-
+        for (int i = 0; i < newSize; i++) {
+            System.out.print(arr[i] + " ");
+        }
+    }
+}
