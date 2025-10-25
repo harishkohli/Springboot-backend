@@ -231,7 +231,54 @@ public class MinAbsDifference {
     }
 }
 
-// This code is contributed by Shivam Gupta
 
 
 ------------------------------------------------------------
+
+
+// Java program to find if the array can be divided into
+// three segments by finding all possible partitions
+
+class GfG {
+    
+    // function to find the sum of subarray arr[start...end]
+    static int findSum(int[] arr, int start, int end) {
+        int sum = 0;
+        for (int i = start; i <= end; i++) 
+            sum += arr[i];
+        return sum;
+    }
+
+    // function to return the index pair of equal sum segments
+    static int[] findSplit(int[] arr) {
+        int n = arr.length;
+
+        // First partition
+        for (int i = 0; i < n - 2; i++) {
+
+            // Second Partition
+            for (int j = i + 1; j < n - 1; j++) {
+
+                // Find sum of all three segments
+                int sum1 = findSum(arr, 0, i);
+                int sum2 = findSum(arr, i + 1, j);
+                int sum3 = findSum(arr, j + 1, n - 1);
+
+                // If all three segments have equal sum,
+                // then return true
+                if (sum1 == sum2 && sum2 == sum3)
+                    return new int[]{i, j};
+            }
+        }
+
+        // No possible index pair found
+        return new int[]{-1, -1};
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {1, 3, 4, 0, 4};
+        int[] res = findSplit(arr);
+
+        System.out.println(res[0] + " " + res[1]);
+    }
+}
